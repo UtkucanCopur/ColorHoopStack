@@ -243,7 +243,7 @@ MonoBehaviour:
   locatedStand: {fileID: 1226208791}
   locatedSocket: {fileID: 581692257}
   canMove: 1
-  color: Red
+  color: Purple
   gameManager: {fileID: 1934774201}
 --- !u!23 &124634385
 MeshRenderer:
@@ -270,7 +270,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0a0b553206eb4a049bf201ff24e6da56, type: 2}
+  - {fileID: 2100000, guid: 7648990160f72f64fa0ca8def8ffb0ea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

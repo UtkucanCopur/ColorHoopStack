@@ -29,18 +29,53 @@ public class GameManager : MonoBehaviour
             {
                 if (hitInfo.collider != null && hitInfo.collider.CompareTag("Stand"))
                 {
-                    
+
                     if (_selectedObject != null && _selectedStand != hitInfo.collider.gameObject)
                     {
                         //sending circle
                         Stand stand = hitInfo.collider.GetComponent<Stand>();
-                        _selectedStand.GetComponent<Stand>().HandleSocketProcess(_selectedObject);
 
-                        _circle.Move("ChangePosition",hitInfo.collider.gameObject,stand.GetAvailableSocket(),stand.movementPosition);
+                        if (stand.circles.Count != 4 && stand.circles.Count != 0)
+                        {
+                            if (_circle.color == stand.circles[^1].GetComponent<Circle>().color)
+                            {
+                                _selectedStand.GetComponent<Stand>().HandleSocketProcess(_selectedObject);
+                                _circle.Move("ChangePosition", hitInfo.collider.gameObject, stand.GetAvailableSocket(), stand.movementPosition);
+                                stand.availableSocketIndex++;
+                                stand.circles.Add(_selectedObject);
+                                _selectedObject = null;
+                                _selectedStand = null;
+                            } else
+                            {
+                                _circle.Move("ReturnSocket");
+                                _selectedObject = null;
+                                _selectedStand = null;
+                            }
 
-                        stand.availableSocketIndex++;
-                        stand.circles.Add(_selectedObject);
 
+                            
+                        } else if (stand.circles.Count == 0) 
+                        {
+                            _selectedStand.GetComponent<Stand>().HandleSocketProcess(_selectedObject);
+                            _circle.Move("ChangePosition", hitInfo.collider.gameObject, stand.GetAvailableSocket(), stand.movementPosition);
+                            stand.availableSocketIndex++;
+                            stand.circles.Add(_selectedObject);
+                            _selectedObject = null;
+                            _selectedStand = null;
+
+                        } else
+                        {
+                            _circle.Move("ReturnSocket");
+                            _selectedObject = null;
+                            _selectedStand = null;
+                        }
+
+
+                        
+
+                    } else if (_selectedStand == hitInfo.collider.gameObject) 
+                    {
+                        _circle.Move("ReturnSocket");
                         _selectedObject = null;
                         _selectedStand = null;
 
@@ -53,7 +88,7 @@ public class GameManager : MonoBehaviour
 
                         if (_circle.canMove)
                         {
-                            _circle.Move("Selected",null,null,_circle.locatedStand.GetComponent<Stand>().movementPosition);
+                            _circle.Move("Selected", null, null, _circle.locatedStand.GetComponent<Stand>().movementPosition);
 
                             _selectedStand = _circle.locatedStand;
 

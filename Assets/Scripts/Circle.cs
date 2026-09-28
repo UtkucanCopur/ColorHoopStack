@@ -61,6 +61,17 @@ public class Circle : MonoBehaviour
             }
         }
 
+        if (_returnSocket)
+        {
+            transform.position = Vector3.Lerp(transform.position, locatedSocket.transform.position, .2f);
+            if (Vector3.Distance(transform.position, locatedSocket.transform.position) < .10f)
+            {
+                transform.position = locatedSocket.transform.position;
+                _returnSocket = false;                
+                gameManager.isMoving = false;
+            }
+        }
+
 
     }
 
@@ -80,11 +91,8 @@ public class Circle : MonoBehaviour
                 _fitSocket = false;
                 _changePos = true;
                 break;
-            case "FitSocket":
-
-                break;
             case "ReturnSocket":
-
+                _returnSocket = true;
                 break;
         }
     }
