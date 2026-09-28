@@ -18,4 +18,26 @@ public class Stand : MonoBehaviour
     {
         return circles[^1]; // select last member of list
     }
+
+    public void HandleSocketProcess(GameObject objtectToRemove)
+    {
+        circles.Remove(objtectToRemove);
+        
+        if (circles.Count != 0)
+        {
+            availableSocketIndex--;
+            circles[^1].GetComponent<Circle>().canMove = true;
+        }
+        else
+        {
+            availableSocketIndex = 0;
+        }
+    }
+
+    public GameObject GetAvailableSocket()
+    {
+        return sockets[availableSocketIndex];
+    }
+
+
 }

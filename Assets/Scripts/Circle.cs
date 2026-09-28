@@ -13,7 +13,7 @@ public class Circle : MonoBehaviour
 
     //Privates
     private GameObject _movingPosition;
-    private GameObject _locatedStand;
+    private GameObject _nextStand;
     private bool _selected;
     private bool _changePos;
     private bool _fitSocket;
@@ -31,6 +31,37 @@ public class Circle : MonoBehaviour
 
             }
         }
+
+        if (_changePos)
+        {
+            transform.position = Vector3.Lerp(transform.position, _movingPosition.transform.position, .2f);
+            if (Vector3.Distance(transform.position, _movingPosition.transform.position) < .10f)
+            {
+                _changePos = false;
+                _fitSocket = true;
+
+            }
+        }
+
+        if (_fitSocket)
+        {
+            transform.position = Vector3.Lerp(transform.position, locatedSocket.transform.position, .2f);
+            if (Vector3.Distance(transform.position, locatedSocket.transform.position) < .10f)
+            {
+                transform.position = locatedSocket.transform.position;
+                _fitSocket = false;
+
+                locatedStand = _nextStand;
+
+                if (locatedStand.GetComponent<Stand>().circles.Count > 1)
+                {
+                    locatedStand.GetComponent<Stand>().circles[^2].GetComponent<Circle>().canMove = false;
+                }
+                gameManager.isMoving = false;
+            }
+        }
+
+
     }
 
 
@@ -43,7 +74,11 @@ public class Circle : MonoBehaviour
                 _selected = true;
                 break;
             case "ChangePosition":
-
+                _nextStand = stand;
+                locatedSocket = socket;
+                _movingPosition = movingObject;
+                _fitSocket = false;
+                _changePos = true;
                 break;
             case "FitSocket":
 

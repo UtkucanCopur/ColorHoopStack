@@ -33,6 +33,17 @@ public class GameManager : MonoBehaviour
                     if (_selectedObject != null && _selectedStand != hitInfo.collider.gameObject)
                     {
                         //sending circle
+                        Stand stand = hitInfo.collider.GetComponent<Stand>();
+                        _selectedStand.GetComponent<Stand>().HandleSocketProcess(_selectedObject);
+
+                        _circle.Move("ChangePosition",hitInfo.collider.gameObject,stand.GetAvailableSocket(),stand.movementPosition);
+
+                        stand.availableSocketIndex++;
+                        stand.circles.Add(_selectedObject);
+
+                        _selectedObject = null;
+                        _selectedStand = null;
+
                     } else
                     {
                         Stand stand = hitInfo.collider.GetComponent<Stand>();
